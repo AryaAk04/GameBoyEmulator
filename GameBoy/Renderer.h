@@ -27,6 +27,10 @@ private:
 	float fps = 0.0f;
 	void ShowFPS();
 
+	u64 lastCounter = 0;
+	double Target = 1.0 / 59.73;
+	void LimitFPS();
+
 	void Event();
 
 public:

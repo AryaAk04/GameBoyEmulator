@@ -102,6 +102,7 @@ void PPU::Step(u8 Cycle)
 				if (Mem->LY == 144)
 				{
 					mode = Mode::V_Blank;
+					ShouldDraw = true;
 					Set_STAT_Mode();
 					SetFlag(Mem->IF, VBLANK_FLAG, true);
 					if (GetFlag(Mem->STAT, M1_INT_SELECT))
@@ -122,7 +123,6 @@ void PPU::Step(u8 Cycle)
 		{
 			if (Dot >= 456)
 			{
-				ShouldDraw = true;
 				Dot -= 456;
 				Mem->LY++;
 				LY_LYC();

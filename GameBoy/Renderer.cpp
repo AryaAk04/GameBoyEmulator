@@ -29,6 +29,8 @@ Renderer::Renderer(Input* joypad)
 
     ShouldRun = true;
     this->joypad = joypad;
+
+    lastCounter = SDL_GetPerformanceCounter();
 }
 
 u8 Renderer::Decode(int code)
@@ -90,6 +92,21 @@ void Renderer::ShowFPS()
     }
 }
 
+void Renderer::LimitFPS()
+{
+    u64 currentCounter = SDL_GetPerformanceCounter();
+
+    double elapsed = (double)(currentCounter - lastCounter) / SDL_GetPerformanceFrequency();
+
+    while (elapsed < Target)
+    {
+        currentCounter = SDL_GetPerformanceCounter();
+        elapsed = (double)(currentCounter - lastCounter) / SDL_GetPerformanceFrequency();
+    }
+
+    lastCounter = SDL_GetPerformanceCounter();
+}
+
 void Renderer::Step(const Shade* shade)
 {
     Event();
@@ -103,5 +120,6 @@ void Renderer::Step(const Shade* shade)
     SDL_RenderTexture(renderer, texture, nullptr, nullptr);
     SDL_RenderPresent(renderer);
 
+    LimitFPS();
     ShowFPS();
 }
