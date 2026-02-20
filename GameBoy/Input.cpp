@@ -62,56 +62,56 @@ void Input::Press(u8 num)
     case 1:
         isPressed = J.A;
         J.A = 1;
-        if (isPressed && (Mask == 0x10 || Mask == 0x30))
+        if (!isPressed && (Mask == 0x10 || Mask == 0x00))
             TriggerInt();
         break;
 
     case 2: 
         isPressed = J.B;
         J.B = 1;
-        if (isPressed && (Mask == 0x10 || Mask == 0x30))
+        if (isPressed && (Mask == 0x10 || Mask == 0x00))
             TriggerInt();
         break;
 
     case 3: 
         isPressed = J.Select;
         J.Select = 1; 
-        if (isPressed && (Mask == 0x10 || Mask == 0x30))
+        if (isPressed && (Mask == 0x10 || Mask == 0x00))
             TriggerInt();
         break;
 
     case 4: 
         isPressed = J.Start;
         J.Start = 1; 
-        if (isPressed && (Mask == 0x10 || Mask == 0x30))
+        if (isPressed && (Mask == 0x10 || Mask == 0x00))
             TriggerInt();
         break;
 
     case 5: 
         isPressed = J.Right;
         J.Right = 1; 
-        if (isPressed && (Mask == 0x20 || Mask == 0x30))
+        if (isPressed && (Mask == 0x20 || Mask == 0x00))
             TriggerInt();
         break;
 
     case 6: 
         isPressed = J.Left;
         J.Left = 1; 
-        if (isPressed && (Mask == 0x20 || Mask == 0x30))
+        if (isPressed && (Mask == 0x20 || Mask == 0x00))
             TriggerInt();
         break;
 
     case 7: 
         isPressed = J.Up;
         J.Up = 1; 
-        if (isPressed && (Mask == 0x20 || Mask == 0x30))
+        if (isPressed && (Mask == 0x20 || Mask == 0x00))
             TriggerInt();
         break;
 
     case 8: 
         isPressed = J.Down;
         J.Down = 1; 
-        if (isPressed && (Mask == 0x20 || Mask == 0x30))
+        if (isPressed && (Mask == 0x20 || Mask == 0x00))
             TriggerInt();
         break;
     }

@@ -12,7 +12,7 @@
 
 int main()
 {
-	Cartridge Cart = Cartridge(/*Mario*/);
+	Cartridge Cart = Cartridge("D:\\Projects\\gb-test-roms-master\\cpu_instrs\\individual\\Castlevania.gb");
 	Input joyPad = Input();
 
 	Memory Mem = Memory(&Cart, &joyPad);

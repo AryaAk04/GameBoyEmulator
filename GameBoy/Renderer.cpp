@@ -70,19 +70,38 @@ void Renderer::Event()
     }
 }
 
+void Renderer::ShowFPS()
+{
+    frameCount++;
+
+    Uint32 currentTime = SDL_GetTicks();
+
+    if (currentTime - last >= 1000)
+    {
+        fps = frameCount * 1000.0f / (currentTime - last);
+
+        frameCount = 0;
+        last = currentTime;
+
+        std::stringstream title;
+        title << "GameBoy Emulator - FPS: " << fps;
+
+        SDL_SetWindowTitle(win, title.str().c_str());
+    }
+}
 
 void Renderer::Step(const Shade* shade)
 {
-     Event();
+    Event();
 
-     for (int i = 0; i < GB_WIDTH * GB_HEIGHT; i++)
-         FrameBuffer[i] = palette[static_cast<u8>(shade[i])];
+    for (int i = 0; i < GB_WIDTH * GB_HEIGHT; i++)
+        FrameBuffer[i] = palette[static_cast<u8>(shade[i])];
 
-     SDL_UpdateTexture(texture, nullptr, FrameBuffer, GB_WIDTH * sizeof(u32));
+    SDL_UpdateTexture(texture, nullptr, FrameBuffer, GB_WIDTH * sizeof(u32));
 
-     SDL_RenderClear(renderer);
-     SDL_RenderTexture(renderer, texture, nullptr, nullptr);
+    SDL_RenderClear(renderer);
+    SDL_RenderTexture(renderer, texture, nullptr, nullptr);
+    SDL_RenderPresent(renderer);
 
-     SDL_RenderPresent(renderer);
-
+    ShowFPS();
 }

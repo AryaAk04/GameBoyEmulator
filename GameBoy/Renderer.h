@@ -5,7 +5,8 @@
 #include <SDL3/SDL.h>
 #include <array>
 #include <iostream>
-
+#include <string>
+#include <sstream>
 
 class Renderer
 {
@@ -21,12 +22,16 @@ private:
 
 	u8 Decode(int code);
 
+	int frameCount = 0;
+	u32 last = SDL_GetTicks();
+	float fps = 0.0f;
+	void ShowFPS();
+
+	void Event();
 
 public:
 	Renderer(Input* JoyPad);
-
 	bool ShouldRun;
-	void Event();
 	void Step(const Shade* shade);
 };
 

@@ -1692,7 +1692,6 @@ u8 CPU::Step()
 {  
 	tCycle = 0;
 	if (isStop) {
-		//if joypad -> !isStop
 		if ((Mem->IE & Mem->IF) & 0x10)
 			isStop = false;
 		else
