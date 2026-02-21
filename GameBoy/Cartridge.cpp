@@ -44,26 +44,32 @@ MBC_Type Cartridge::GetType(u8 byte)
     case 0x00:
     case 0x08:
     case 0x09:
-        //std::cout << "MBC0\n";
         return MBC_Type::MBC0;
 
     case 0x01:
     case 0x02:
     case 0x03:
-        //std::cout << "MBC1\n";
         return MBC_Type::MBC1;
 
     case 0x05:
     case 0x06:
-        //std::cout << "MBC2\n";
         return MBC_Type::MBC2;
 
     case 0x0F:
+        battery = true;
+        RTC = true;
+        return MBC_Type::MBC3;
     case 0x10:
+        battery = true;
+        RTC = true;
+        return MBC_Type::MBC3;
     case 0x11:
+        return MBC_Type::MBC3;
     case 0x12:
+        return MBC_Type::MBC3;
     case 0x13:
-        //std::cout << "MBC3\n";
+        battery = true;
+        RTC = false;
         return MBC_Type::MBC3;
 
     case 0x19:
@@ -72,11 +78,9 @@ MBC_Type Cartridge::GetType(u8 byte)
     case 0x1C:
     case 0x1D:
     case 0x1E:
-        //std::cout << "MBC5\n";
         return MBC_Type::MBC5;
 
     default:
-        //std::cout << "MBC UNKNOWN\n";
         return MBC_Type::UNKNOWN;
     }
 }
@@ -132,6 +136,9 @@ void Cartridge::MakeCart()
         break;
     case MBC_Type::MBC1:
         mbc = std::make_unique<MBC1>(&romData, RomBanksCount, RamBanksCount);
+        break;
+    case MBC_Type::MBC3:
+        mbc = std::make_unique<MBC3>(&romData, RomBanksCount, RamBanksCount, battery, RTC);
         break;
     default:
         mbc = std::make_unique<MBC0>(&romData);

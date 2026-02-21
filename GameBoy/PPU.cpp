@@ -223,8 +223,8 @@ void PPU::DrawLine()
 		}
 		else if (GetFlag(Mem->LCDC, BG_WIN_ENABLE))
 		{
-			u8 X = (x + SCX) % 256;
-			u8 Y = (LY + SCY) % 256;
+			u8 X = x + SCX;
+			u8 Y = LY + SCY;
 
 			if (x == 0 || (X % 8 == 0))
 			{

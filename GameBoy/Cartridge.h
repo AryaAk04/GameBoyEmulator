@@ -19,11 +19,14 @@ class Cartridge
 public:
 	std::vector<u8> romData;
 	Cartridge(const std::string& path);
+
 	void GetInfo(const std::vector<u8> rom);
 	MBC_Type GetType(u8 byte);
+
 	u16 GetRomBanks(u8 byte);
 	u8 GetRamBanks(u8 byte);
 	void MakeCart();
+
 	std::unique_ptr<MBC> mbc;
 
 	u8 Read(u16 address) {
@@ -46,5 +49,8 @@ private:
 
 	u8 RamByte;
 	u8 RamBanksCount;
+
+	bool battery;
+	bool RTC;
 };
 
