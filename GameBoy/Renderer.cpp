@@ -1,13 +1,4 @@
 #include "Renderer.h"
-namespace {
-    static constexpr u32 palette[4] =
-    {
-       0xFFFFFFFF,
-       0xFFAAAAAA,
-       0xFF555555,
-       0xFF000000
-    };
-}
 
 Renderer::Renderer(Input* joypad)
 {
@@ -54,11 +45,23 @@ void Renderer::Event()
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
         case SDL_EVENT_KEY_DOWN:
+        {
             if (event.key.repeat == true) {
                 break;
             };
+            if (event.key.key == SDLK_0)
+            {
+                NextPalette();
+                break;
+            }
+            if (event.key.key == SDLK_9)
+            {   
+                PreviousPalette();
+                break;
+            }
             joypad->Press(Decode(event.key.key));
             break;
+        }
         case SDL_EVENT_KEY_UP:
             if (event.key.repeat == true) {
                 break;
@@ -112,7 +115,7 @@ void Renderer::Step(const Shade* shade)
     Event();
 
     for (int i = 0; i < GB_WIDTH * GB_HEIGHT; i++)
-        FrameBuffer[i] = palette[static_cast<u8>(shade[i])];
+        FrameBuffer[i] = PALETTES[CurrentPaletteIndex].colors[static_cast<u8>(shade[i])];
 
     SDL_UpdateTexture(texture, nullptr, FrameBuffer, GB_WIDTH * sizeof(u32));
 
