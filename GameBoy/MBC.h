@@ -34,13 +34,15 @@ private:
 	u16 RomBanks;
 	u8 RamBanks;
 
+	bool HasBattery;
+
 	u8 CurrentRomBank;
 	u8 CurrentRamBank;
 	bool RamEnabled;
 	bool mode;
 public:
-	MBC1(std::vector<u8>* rom, u16 romCount, u8 ramCount)
-		:MBC(rom), RomBanks(romCount), RamBanks(ramCount)
+	MBC1(std::vector<u8>* rom, u16 romCount, u8 ramCount, bool battery)
+		:MBC(rom), RomBanks(romCount), RamBanks(ramCount), HasBattery(battery)
 	{
 		if (RamBanks > 0)
 			Ram.resize(RamBanks * 0x2000);

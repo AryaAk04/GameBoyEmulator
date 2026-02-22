@@ -69,14 +69,12 @@ void MBC1::Write(u16 address, u8 value)
     }
     else if (address >= 0x2000 && address < 0x4000)
     {
-        // Lower 5 bits of ROM bank number
         u8 lower = value & 0x1F;
         if (lower == 0) lower = 1;
         CurrentRomBank = (CurrentRomBank & 0xE0) | lower;
     }
     else if (address >= 0x4000 && address < 0x6000)
     {
-        // Upper bits for ROM or RAM bank depending on mode
         u8 high = value & 0x03;
         if (mode == 0)
             CurrentRomBank = (CurrentRomBank & 0x1F) | (high << 5);

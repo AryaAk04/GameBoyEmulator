@@ -7,6 +7,7 @@ Cartridge::Cartridge(const std::string& path)
     std::ifstream file(path, std::ios::binary | std::ios::ate);
     if (!file.is_open()) {
         std::cerr << "Failed to open ROM: " << path << std::endl;
+        loadedSuccessfully = false;
         return;
     }
 
@@ -16,17 +17,22 @@ Cartridge::Cartridge(const std::string& path)
     romData.resize(size);
     if (!file.read(reinterpret_cast<char*>(romData.data()), size)) {
         std::cerr << "Failed to read ROM data.\n";
+        loadedSuccessfully = false;
         return;
     }
     GetInfo(romData);
     file.close();
     MakeCart();
-    std::cout << "Loaded ROM successfully (" << size << " bytes)" << std::endl;
+    std::cout << "Loaded ROM successfully :\n" << std::endl;
+    std::cout << title << " (" << size << " Bytes)" << std::endl;
+
+    loadedSuccessfully = true;
     return;
 }
 
 void Cartridge::GetInfo(const std::vector<u8> rom)
 {
+    title = GetTitle(rom);
     MBC_Byte = rom[0x0147];
     Type = GetType(MBC_Byte);
 
@@ -35,6 +41,16 @@ void Cartridge::GetInfo(const std::vector<u8> rom)
 
     RamByte = rom[0x0149];
     RamBanksCount = GetRamBanks(RamByte);
+}
+
+std::string Cartridge::GetTitle(const std::vector<u8> rom)
+{
+    char name[11] = { 0 };
+
+    for (u8 i = 0; i < 11; i++)
+        name[i] = rom[0x134 + i];
+
+    return name;
 }
 
 MBC_Type Cartridge::GetType(u8 byte)
@@ -46,15 +62,24 @@ MBC_Type Cartridge::GetType(u8 byte)
     case 0x09:
         return MBC_Type::MBC0;
 
+
+    // MBC1
     case 0x01:
     case 0x02:
+        battery = false;
+        return MBC_Type::MBC1;
     case 0x03:
+        battery = true;
         return MBC_Type::MBC1;
 
+
+    // MBC2
     case 0x05:
     case 0x06:
         return MBC_Type::MBC2;
 
+
+    // MBC3
     case 0x0F:
         battery = true;
         RTC = true;
@@ -72,6 +97,8 @@ MBC_Type Cartridge::GetType(u8 byte)
         RTC = false;
         return MBC_Type::MBC3;
 
+
+    // MBC5
     case 0x19:
     case 0x1A:
     case 0x1B:
@@ -135,7 +162,7 @@ void Cartridge::MakeCart()
         mbc = std::make_unique<MBC0>(&romData);
         break;
     case MBC_Type::MBC1:
-        mbc = std::make_unique<MBC1>(&romData, RomBanksCount, RamBanksCount);
+        mbc = std::make_unique<MBC1>(&romData, RomBanksCount, RamBanksCount, battery);
         break;
     case MBC_Type::MBC3:
         mbc = std::make_unique<MBC3>(&romData, RomBanksCount, RamBanksCount, battery, RTC);

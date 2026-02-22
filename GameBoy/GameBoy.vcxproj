@@ -146,6 +146,7 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="CPU.h" />
     <ClInclude Include="Defs.h" />
+    <ClInclude Include="GameBoy.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="MBC.h" />
     <ClInclude Include="Memory.h" />

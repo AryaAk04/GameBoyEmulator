@@ -22,6 +22,26 @@ Renderer::Renderer(Input* joypad)
     this->joypad = joypad;
 
     lastCounter = SDL_GetPerformanceCounter();
+
+}
+
+void SDLCALL Renderer::CallbackFunk(void* userdata, const char* const* filelist, int filter) {
+
+    if (!filelist) {
+        SDL_Log("An error occured: %s", SDL_GetError());
+        return;
+    }
+
+    else if (!*filelist) {
+        SDL_Log("The user did not select any file.");
+        SDL_Log("Most likely, the dialog was canceled.");
+        return;
+    }
+
+    std::string location = *filelist;
+
+    Renderer* self = static_cast<Renderer*>(userdata);
+    self->path = location;
 }
 
 u8 Renderer::Decode(int code)
@@ -57,6 +77,11 @@ void Renderer::Event()
             if (event.key.key == SDLK_9)
             {   
                 PreviousPalette();
+                break;
+            }
+            if (event.key.key == SDLK_8)
+            {
+                SDL_ShowOpenFileDialog(Renderer::CallbackFunk, this, win, &Filter, 1, nullptr, 0);
                 break;
             }
             joypad->Press(Decode(event.key.key));
@@ -112,8 +137,6 @@ void Renderer::LimitFPS()
 
 void Renderer::Step(const Shade* shade)
 {
-    Event();
-
     for (int i = 0; i < GB_WIDTH * GB_HEIGHT; i++)
         FrameBuffer[i] = PALETTES[CurrentPaletteIndex].colors[static_cast<u8>(shade[i])];
 

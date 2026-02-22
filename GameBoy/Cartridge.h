@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <string>
 #include "Defs.h"
 #include "MBC.h"
 
@@ -17,20 +18,11 @@ enum class MBC_Type
 class Cartridge
 {
 public:
-	std::vector<u8> romData;
+	
 	Cartridge(const std::string& path);
 
-	void GetInfo(const std::vector<u8> rom);
-	MBC_Type GetType(u8 byte);
-
-	u16 GetRomBanks(u8 byte);
-	u8 GetRamBanks(u8 byte);
-	void MakeCart();
-
-	std::unique_ptr<MBC> mbc;
-
 	u8 Read(u16 address) {
-		if(mbc)
+		if (mbc)
 			return mbc->Read(address);
 	};
 
@@ -40,7 +32,22 @@ public:
 			mbc->Write(address, value);
 	};
 
+	bool IsValid() const { return loadedSuccessfully; }
+
 private:
+
+	void GetInfo(const std::vector<u8> rom);
+	MBC_Type GetType(u8 byte);
+	std::string GetTitle(const std::vector<u8> rom);
+
+	std::vector<u8> romData;
+
+	u16 GetRomBanks(u8 byte);
+	u8 GetRamBanks(u8 byte);
+	void MakeCart();
+
+	std::unique_ptr<MBC> mbc;
+
 	u8 MBC_Byte;
 	MBC_Type Type;
 
@@ -52,5 +59,9 @@ private:
 
 	bool battery;
 	bool RTC;
+
+	bool loadedSuccessfully = false;
+
+	std::string title = "";
 };
 

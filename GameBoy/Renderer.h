@@ -3,6 +3,7 @@
 #include "Color.h"
 #include "Input.h"
 #include <SDL3/SDL.h>
+#include <SDL3/SDL_dialog.h>
 #include <array>
 #include <iostream>
 #include <string>
@@ -60,11 +61,14 @@ private:
 	double Target = 1.0 / 59.73;
 	void LimitFPS();
 
-	void Event();
+	static void SDLCALL CallbackFunk(void* userdata, const char* const* filelist, int filter);
+	const SDL_DialogFileFilter Filter = { "GameBoy Files", "gb" };
 
 public:
 	Renderer(Input* JoyPad);
 	bool ShouldRun;
 	void Step(const Shade* shade);
+	std::string path = "";
+	void Event();
 };
 
