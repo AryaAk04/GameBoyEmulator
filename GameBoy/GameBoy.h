@@ -34,6 +34,8 @@ public:
         cpu = std::make_unique<CPU>(mem.get());
         ppu = std::make_unique<PPU>(mem.get());
 
+        cpu->NoBootInit();
+
         return true;
     }
 

@@ -1,6 +1,4 @@
 #include <iostream>
-#include <vector>
-#include <array>
 #include "Renderer.h"
 #include "Input.h"
 #include "GameBoy.h"
@@ -8,8 +6,8 @@
 int main()
 {
 	Input joyPad = Input();
-	Renderer renderer = Renderer(&joyPad);
-	GameBoy GB = GameBoy(&joyPad);
+	Renderer renderer(&joyPad);
+	GameBoy GB(&joyPad);
 	
 
 	while (renderer.ShouldRun)

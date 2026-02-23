@@ -29,7 +29,6 @@ public:
 class MBC1 : public MBC
 {
 private:
-	//std::vector<u8>* Rom;
 	std::vector<u8> Ram;
 	u16 RomBanks;
 	u8 RamBanks;
