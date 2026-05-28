@@ -4,7 +4,7 @@
 
 #define GB_WIDTH 160
 #define GB_HEIGHT 144
-#define SCALE 4
+#define SCALE 6
 
 typedef uint8_t u8;
 typedef uint16_t u16;
