@@ -6,7 +6,6 @@ Cartridge::Cartridge(const std::string& path)
 {
     std::ifstream file(path, std::ios::binary | std::ios::ate);
     if (!file.is_open()) {
-        std::cerr << "Failed to open ROM: " << path << std::endl;
         loadedSuccessfully = false;
         return;
     }
@@ -16,15 +15,12 @@ Cartridge::Cartridge(const std::string& path)
 
     romData.resize(size);
     if (!file.read(reinterpret_cast<char*>(romData.data()), size)) {
-        std::cerr << "Failed to read ROM data.\n";
         loadedSuccessfully = false;
         return;
     }
     GetInfo(romData);
     file.close();
     MakeCart();
-    std::cout << "Loaded ROM successfully :\n" << std::endl;
-    std::cout << title << " (" << size << " Bytes)" << std::endl;
 
     loadedSuccessfully = true;
     return;

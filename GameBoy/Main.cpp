@@ -2,9 +2,12 @@
 #include "Renderer.h"
 #include "Input.h"
 #include "GameBoy.h"
+#include <Windows.h>
 
 int main()
 {
+	ShowWindow(GetConsoleWindow(), SW_HIDE);
+
 	Input joyPad = Input();
 	Renderer renderer(&joyPad);
 	GameBoy GB(&joyPad);
