@@ -7,16 +7,34 @@ Renderer::Renderer(Input* joypad)
         return;
     }
 
-    if (!SDL_CreateWindowAndRenderer("GameBoy", GB_WIDTH * SCALE, GB_HEIGHT * SCALE, SDL_WINDOW_RESIZABLE, &win, &renderer)) {
+    SDL_DisplayID display = SDL_GetPrimaryDisplay();
+    const SDL_DisplayMode* mode = SDL_GetCurrentDisplayMode(display);
+
+    int scaleX = mode->w / GB_WIDTH;
+    int scaleY = mode->h / GB_HEIGHT;
+
+    int scale = std::max(1, std::min(scaleX, scaleY) - 1);
+
+
+    if (!SDL_CreateWindowAndRenderer("GameBoy", GB_WIDTH * scale, GB_HEIGHT * scale, SDL_WINDOW_RESIZABLE, &win, &renderer)) {
         SDL_Log("Couldn't create window/renderer: %s", SDL_GetError());
         return;
     }
+
+    SDL_SetRenderLogicalPresentation(
+        renderer,
+        GB_WIDTH,
+        GB_HEIGHT,
+        SDL_LOGICAL_PRESENTATION_LETTERBOX
+    );
 
     texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, GB_WIDTH, GB_HEIGHT);
     if (!texture) {
         SDL_Log("Couldn't create static texture: %s", SDL_GetError());
         return;
     }
+
+    SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
 
     ShouldRun = true;
     this->joypad = joypad;
