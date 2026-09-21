@@ -1,6 +1,6 @@
 # GameBoy Emulator
 
-A simple GameBoy emulator written in C++ using SDL3, Supporting MBC0/MBC1/MBC3 cartridges
+A simple GameBoy emulator written in C++ using SDL3, supporting MBC0/MBC1/MBC3 cartridges
 
 ## Features
 - Full SM83 CPU emulation
