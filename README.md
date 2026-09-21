@@ -22,16 +22,17 @@ A simple GameBoy emulator written in C++ using SDL3, Supporting MBC0/MBC1/MBC3 c
 
 ## Build
 
-'''
+```
 mkdir build && cd build
 cmake ..
 make
-'''
+```
 
 Requires SDL3.
 
 * Controls
 | Key | Action |
+|-----|--------|
 | Arrow Keys | D-pad |
 | Z | A button |
 | X | B button |
