@@ -32,6 +32,8 @@ void CPU::NoBootInit() {
 	Mem->WriteByte(0xFF4A, 0x00);
 	Mem->WriteByte(0xFF4B, 0x00);
 	Mem->WriteByte(0xFFFF, 0x00);
+	isStop = false;
+	isHalt = false;
 }
 
 void CPU::SetFlag(u8 flag, bool state)

@@ -74,6 +74,8 @@ u8 Renderer::Decode(int code)
     case SDLK_LEFT: return 6;
     case SDLK_UP: return 7;
     case SDLK_DOWN: return 8;
+    default:
+        return 0;
     }
 }
 
@@ -156,7 +158,7 @@ void Renderer::LimitFPS()
 void Renderer::Step(const Shade* shade)
 {
     for (int i = 0; i < GB_WIDTH * GB_HEIGHT; i++)
-        FrameBuffer[i] = PALETTES[CurrentPaletteIndex].colors[static_cast<u8>(shade[i])];
+        FrameBuffer[i] = PALETTES[CurrentPaletteIndex].colors[static_cast<u8>(shade[i]) & 0x03];
 
     SDL_UpdateTexture(texture, nullptr, FrameBuffer, GB_WIDTH * sizeof(u32));
 

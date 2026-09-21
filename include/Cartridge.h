@@ -4,6 +4,7 @@
 #include <string>
 #include "Defs.h"
 #include "MBC.h"
+#include <memory>
 
 enum class MBC_Type
 {

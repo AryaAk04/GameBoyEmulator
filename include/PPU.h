@@ -48,8 +48,7 @@ public:
 	PPU(Memory* Mem);
 	void Step(u8 Cycle);
 	bool ShouldDraw = false;
-	Shade Display[GB_WIDTH * GB_HEIGHT];
-	
+	Shade Display[GB_WIDTH * GB_HEIGHT] = {};
 
 };
 

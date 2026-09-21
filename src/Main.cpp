@@ -2,11 +2,9 @@
 #include "Renderer.h"
 #include "Input.h"
 #include "GameBoy.h"
-#include <Windows.h>
 
 int main()
 {
-	ShowWindow(GetConsoleWindow(), SW_HIDE);
 
 	Input joyPad = Input();
 	Renderer renderer(&joyPad);
@@ -16,7 +14,9 @@ int main()
 	while (renderer.ShouldRun)
 	{
 		if (!renderer.path.empty()) {
-			GB.LoadROM(renderer.path);
+			bool success = GB.LoadROM(renderer.path);
+			std::cout << "ROM load " << (success ? "succeeded" : "FAILED")
+					<< ": \"" << renderer.path << "\"" << std::endl;
 			renderer.path = "";
 		}
 		renderer.Event();
