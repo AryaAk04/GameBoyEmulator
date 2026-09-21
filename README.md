@@ -30,7 +30,7 @@ make
 
 Requires SDL3.
 
-* Controls
+** Controls
 | Key | Action |
 |-----|--------|
 | Arrow Keys | D-pad |
