@@ -7,7 +7,7 @@ A simple GameBoy emulator written in C++ using SDL3, supporting MBC0/MBC1/MBC3 c
 - PPU with background, window, and sprite rendering
 - MBC0/MBC1/MBC3 cartridge support (including RTC)
 - Cross-platform (Windows/Linux)
-- Customizable Color Palettes
+- 8 different Color Palettes
 - File Explorer to Select Roms
 
 ![screenshot](assets/Castlevania.png)
@@ -38,7 +38,7 @@ Requires SDL3.
 | X | B button |
 | Enter | Start |
 | Backspace | Select |
-| 8 | Open Rom file |
+| 8 | Open file explorer |
 | 9/0 | Cycle color palettes |
 
 ## What I learned
